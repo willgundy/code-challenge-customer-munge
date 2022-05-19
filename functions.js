@@ -95,7 +95,17 @@ Output:
 */
 
 export function getGenderBreakdownOfEachCar(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        if(!acc[customer.car_make]) {
+            acc[customer.car_make] = customers
+                .filter((interiorCustomer) => interiorCustomer.car_make === customer.car_make)
+                .reduce((acc, interiorCustomer) => { 
+                    acc[interiorCustomer.gender] ? acc[interiorCustomer.gender]++ : acc[interiorCustomer.gender] = 1; 
+                    return acc; 
+                }, {});
+        }
+        return acc; 
+    }, {});
 }
 
 /* 
@@ -110,7 +120,10 @@ Output:
 
 
 export function getAllCoolFactorsOfEachCar(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        acc[customer.car_make] ? acc[customer.car_make].push(customer.cool_factor) : acc[customer.car_make] = [customer.cool_factor]; 
+        return acc; 
+    }, {});
 }
 
 /////////////////////////////// STRETCH GOALS ///////////////////////////////////////
@@ -130,7 +143,15 @@ Output:
 */
 
 export function getAverageCoolFactorOfEachCar(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        if(!acc[customer.car_make]) {
+            const count = customers.filter((interiorCustomer) => interiorCustomer.car_make === customer.car_make).length;
+            acc[customer.car_make] = customers
+                .filter((interiorCustomer) => interiorCustomer.car_make === customer.car_make)
+                .reduce((arr, interiorCustomer) => arr + interiorCustomer.cool_factor, 0) / count;
+        }
+        return acc; 
+    }, {});
 }
 
 
@@ -152,7 +173,11 @@ Output:
 */
 
 export function makeAgeBrackets(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        const ageIndex = Math.floor(customer.age / 10) * 10;
+        acc[ageIndex] ? acc[ageIndex]++ : acc[ageIndex] = 1; 
+        return acc; 
+    }, {});
 }
 
 /* 
@@ -169,7 +194,11 @@ Output:
 */
 
 export function getCoolFactorsByAgeBracket(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        const ageIndex = Math.floor(customer.age / 10) * 10;
+        acc[ageIndex] ? acc[ageIndex].push(customer.cool_factor) : acc[ageIndex] = [customer.cool_factor]; 
+        return acc; 
+    }, {});
 }
 
 
@@ -188,6 +217,15 @@ Output:
 */
 
 export function getAverageCoolFactorByAgeBracket(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        const ageIndex = Math.floor(customer.age / 10) * 10;
+        if(!acc[ageIndex]) {
+            const count = customers.filter((interiorCustomer) => interiorCustomer.age >= ageIndex && interiorCustomer.age < ageIndex + 10).length;
+            acc[ageIndex] = customers
+                .filter((interiorCustomer) => interiorCustomer.age >= ageIndex && interiorCustomer.age < ageIndex + 10)
+                .reduce((acc, interiorCustomer) => acc + interiorCustomer.cool_factor, 0) / count;
+        }
+        return acc;
+    }, {});
 }
 
