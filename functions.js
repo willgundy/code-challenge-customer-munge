@@ -5,7 +5,7 @@ Output:
 
 export function greetUsers(customers) {
      // just map over them to make a greeting
-    return true;
+    return customers.map(customer => `Hello ${customer.first_name} ${customer.last_name}!`);
 }
 
 /* 
@@ -14,9 +14,10 @@ Output:
 */
 
 export function greetUsersOverAge60(customers) {
-    return customers
+    return customers.filter(customer => customer.age >= 60).map(customer => `Hello ${customer.first_name} ${customer.last_name}!`);;
         // first, filter over the user to get the ones over 60
         // then map over them to make a greeting
+        // I did greater than or equal to sixty
 }
 
 
@@ -27,7 +28,7 @@ Output:
 
 export function addAllAges(customers) {
     // reduce through the customers to make a sum
-    return true;
+    return customers.reduce((arr, customer) => arr + customer.age, 0);
 }
 
 /* 
@@ -39,7 +40,7 @@ export function getAverageCoolFactor(customers) {
     // map through to make an array of cool factors
     // then reduce through that array to get a sum
     // then divide by the total number of customers
-    return true;
+    return customers.reduce((arr, customer) => arr + customer.cool_factor, 0) / customers.length;
 }
 
 /* 
@@ -53,7 +54,10 @@ Output:
 */
 
 export function getTotalOfEachGender(customers) {
-    return true;
+    return customers.reduce((acc, customer) => { 
+        acc[customer.gender] ? acc[customer.gender]++ : acc[customer.gender] = 1; 
+        return acc; 
+    }, {});
 }
 
 /* 
@@ -67,7 +71,10 @@ Output:
 */
 
 export function getGenderBreakdownOfFordOwners(customers) {
-    return true;
+    return customers.filter(customer => customer.car_make === 'Ford').reduce((acc, customer) => { 
+        acc[customer.gender] ? acc[customer.gender]++ : acc[customer.gender] = 1; 
+        return acc; 
+    }, {});
 }
 
 /* 
